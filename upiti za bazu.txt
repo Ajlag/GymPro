@@ -1,0 +1,89 @@
+create database GymN;
+create table [Gym].[dbo].[korisnik]
+(
+IDKorisnika varchar(13) not null primary key,
+sifra varchar(15) not null,
+KorisnickoIme varchar(20) not null,
+tip char(1) default 'N' check (tip in ('N', 'R')) not null,
+foreign key (IDKorisnika) references osoba(JMBG)
+);
+
+create table [Gym].[dbo].[osoba]
+(
+Ime varchar(15) not null,
+Prezime varchar(15) not null,
+brTelefona int,
+adresa varchar (30) null,
+email varchar(30) null,
+pol char(1)  default 'M' check (pol in ('M', 'Ž')) not null ,
+JMBG varchar(13) not null primary key
+);
+
+create table [Gym].[dbo].[clan]
+(
+IDClana varchar(13) not null primary key,
+datumRodj date,
+datumUpisa date,
+foreign key (IDClana) references osoba(JMBG)
+);
+
+create table[Gym].[dbo].[cenovnik]
+(
+cena int not null,
+tip varchar(10) not null,
+IDCena int primary key not null, 
+poslednjePromene varchar(15) not null
+);
+
+create table[Gym].[dbo].[termin]
+(
+datum varchar(50) not null,
+IDtermina int identity(1,1) primary key ,
+vreme varchar(50) not null,
+Tiptreninga varchar(50),
+ImeiPrezime varchar(50) not null,
+arhivirano int not null
+);
+
+create table [Gym].[dbo].[rezultati]
+(
+
+ime varchar(50),
+visina float not null,
+tezina float not null,
+ruke float not null,
+noge float not null,
+struk float not null,
+JMBG1 varchar(13) not null primary key,
+foreign key (JMBG1) references clan(IDClana),
+visina_epic float,
+tezina_epic float,
+ruke_epic float,
+noge_epic float,
+struk_epic float,
+vremeUnosa varchar(50),
+vremeUnosa_epic varchar(50),
+
+
+);
+
+create table [Gym].[dbo].[statistika]
+(
+IDstatistika varchar(13) not null primary key,
+mesec date,
+godina date,
+prihod float,
+IDrezultat int not null,
+foreign key (IDstatistika) references rezultati(JMBG1)
+);
+
+
+ public override string ToString()
+        {
+            return this.ime + " " + this.visina + " " + this.tezina + " " + this.ruke + " " + this.noge+ " " + this.struk + " " + this.JMBG1;
+        }
+
+  public override string ToString()
+        {
+            return this.JMBG + " " + this.Ime + " " + this.Prezime + " " + this.email + " " + this.pol + " " + this.adresa + " " + this.brTelefona;
+        }

@@ -1,0 +1,92 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace GYM
+{
+    public partial class rezultat : UserControl
+    {
+        GymEntities10 vezasaBazom;
+        public rezultat()
+        {
+            InitializeComponent();
+            this.Dock = DockStyle.Fill;
+            vezasaBazom = new GymEntities10();
+            textBox1.Text = DateTime.Now.ToString("MM/dd/yyyy  HH:mm:ss");
+
+        }
+
+        private void popuniTabelu()
+        {
+            List<rezultati> lista = vezasaBazom.rezultatis.ToList();
+            listBox1.DataSource = null;
+            listBox1.DataSource = lista;
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            popuniTabelu();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            SqlConnection con = new SqlConnection("data source = AMINA; initial catalog = Gym; integrated security = True; MultipleActiveResultSets = True; App = EntityFramework & quot");
+            try
+            {
+                con.Open();
+                string vr = DateTime.Now.ToString("MM/dd/yyyy  HH:mm:ss");
+                SqlCommand sda = new SqlCommand("Insert into rezultati (ime, visina, tezina, ruke, noge, struk, JMBG1, visina_epic, tezina_epic, ruke_epic, noge_epic, struk_epic, vremeUnosa, vremeUnosa_epic) values('" + tbImeiPrezime.Text + "','" + tbvisina.Text + "','" + txtTezina.Text + "','" + tbruke.Text + "','" + tbnoge.Text + "','"+tbstruk.Text+"' , '" + textBox1.Text+ "', '0', '0', '0', '0', '0','" + vr+"', '0');", con);
+                sda.ExecuteNonQuery();
+                MessageBox.Show("Uspešno");
+                con.Close();
+                // visina_epic, tezina_epic, ruke_epic, noge_epic, struk_epic, vremeUnosa_epic
+                //, '0', '0', '0', '0', '0', '0'
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+            SqlConnection con = new SqlConnection("data source=AMINA;initial catalog=Gym;integrated security=True;MultipleActiveResultSets=True;App=EntityFramework&quot;");
+            try
+            {
+                con.Open();
+                string vr = DateTime.Now.ToString("MM/dd/yyyy  HH:mm:ss");
+                SqlCommand sda = new SqlCommand("Update rezultati set  ime = '" + tbImeiPrezime.Text+"', vremeUnosa ='" + vr +"', visina='" + tbvisina.Text +"', tezina='" + txtTezina.Text + "', ruke='" + tbruke.Text + "', noge='" + tbnoge.Text + "', struk='" + tbstruk.Text +"' WHERE JMBG1='" +textBox1.Text+ "'", con);
+                sda.ExecuteNonQuery();
+                MessageBox.Show("Uspesno");
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void listBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}

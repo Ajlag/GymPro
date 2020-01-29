@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GymNModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cenovnik">
+          <Key>
+            <PropertyRef Name="IDCena" />
+          </Key>
+          <Property Name="cena" Type="int" Nullable="false" />
+          <Property Name="tip" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IDCena" Type="int" Nullable="false" />
+          <Property Name="poslednjePromene" Type="varchar" MaxLength="15" Nullable="false" />
+        </EntityType>
+        <EntityType Name="clan">
+          <Key>
+            <PropertyRef Name="IDClana" />
+          </Key>
+          <Property Name="IDClana" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="datumRodj" Type="varchar" MaxLength="20" />
+          <Property Name="datumUpisa" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="korisnik">
+          <Key>
+            <PropertyRef Name="IDKorisnika" />
+          </Key>
+          <Property Name="KorisnickoIme" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="IDKorisnika" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="sifra" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="tip" Type="char" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="osoba">
+          <Key>
+            <PropertyRef Name="JMBG" />
+          </Key>
+          <Property Name="Ime" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Prezime" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="brTelefona" Type="int" />
+          <Property Name="adresa" Type="varchar" MaxLength="30" />
+          <Property Name="email" Type="varchar" MaxLength="30" />
+          <Property Name="pol" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="JMBG" Type="varchar" MaxLength="13" Nullable="false" />
+        </EntityType>
+        <EntityType Name="rezultati">
+          <Key>
+            <PropertyRef Name="JMBG1" />
+          </Key>
+          <Property Name="visina" Type="float" Nullable="false" />
+          <Property Name="tezina" Type="float" Nullable="false" />
+          <Property Name="ruke" Type="float" Nullable="false" />
+          <Property Name="noge" Type="float" Nullable="false" />
+          <Property Name="struk" Type="float" Nullable="false" />
+          <Property Name="JMBG1" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="visina_epic" Type="float" />
+          <Property Name="tezina_epic" Type="float" />
+          <Property Name="ruke_epic" Type="float" />
+          <Property Name="noge_epic" Type="float" />
+          <Property Name="struk_epic" Type="float" />
+          <Property Name="vremeUnosa" Type="varchar" MaxLength="50" />
+          <Property Name="vremeUnosa_epic" Type="varchar" MaxLength="50" />
+          <Property Name="ime" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="statistika">
+          <Key>
+            <PropertyRef Name="IDstatistika" />
+          </Key>
+          <Property Name="IDstatistika" Type="varchar" MaxLength="13" Nullable="false" />
+          <Property Name="mesec" Type="date" />
+          <Property Name="godina" Type="date" />
+          <Property Name="prihod" Type="float" />
+          <Property Name="IDrezultat" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="termin">
+          <Key>
+            <PropertyRef Name="IDtermina" />
+          </Key>
+          <Property Name="datum" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IDtermina" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="vreme" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Tiptreninga" Type="varchar" MaxLength="50" />
+          <Property Name="ImeiPrezime" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="arhivirano" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__clan__IDClana__3A81B327">
+          <End Role="osoba" Type="Self.osoba" Multiplicity="1" />
+          <End Role="clan" Type="Self.clan" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="osoba">
+              <PropertyRef Name="JMBG" />
+            </Principal>
+            <Dependent Role="clan">
+              <PropertyRef Name="IDClana" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__korisnik__IDKori__164452B1">
+          <End Role="osoba" Type="Self.osoba" Multiplicity="1" />
+          <End Role="korisnik" Type="Self.korisnik" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="osoba">
+              <PropertyRef Name="JMBG" />
+            </Principal>
+            <Dependent Role="korisnik">
+              <PropertyRef Name="IDKorisnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__rezultati__JMBG1__4316F928">
+          <End Role="clan" Type="Self.clan" Multiplicity="1" />
+          <End Role="rezultati" Type="Self.rezultati" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="clan">
+              <PropertyRef Name="IDClana" />
+            </Principal>
+            <Dependent Role="rezultati">
+              <PropertyRef Name="JMBG1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__statistik__IDsta__45F365D3">
+          <End Role="rezultati" Type="Self.rezultati" Multiplicity="1" />
+          <End Role="statistika" Type="Self.statistika" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="rezultati">
+              <PropertyRef Name="JMBG1" />
+            </Principal>
+            <Dependent Role="statistika">
+              <PropertyRef Name="IDstatistika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GymNModelStoreContainer">
+          <EntitySet Name="cenovnik" EntityType="Self.cenovnik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="clan" EntityType="Self.clan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="korisnik" EntityType="Self.korisnik" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="osoba" EntityType="Self.osoba" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="rezultati" EntityType="Self.rezultati" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="statistika" EntityType="Self.statistika" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="termin" EntityType="Self.termin" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__clan__IDClana__3A81B327" Association="Self.FK__clan__IDClana__3A81B327">
+            <End Role="osoba" EntitySet="osoba" />
+            <End Role="clan" EntitySet="clan" />
+          </AssociationSet>
+          <AssociationSet Name="FK__korisnik__IDKori__164452B1" Association="Self.FK__korisnik__IDKori__164452B1">
+            <End Role="osoba" EntitySet="osoba" />
+            <End Role="korisnik" EntitySet="korisnik" />
+          </AssociationSet>
+          <AssociationSet Name="FK__rezultati__JMBG1__4316F928" Association="Self.FK__rezultati__JMBG1__4316F928">
+            <End Role="clan" EntitySet="clan" />
+            <End Role="rezultati" EntitySet="rezultati" />
+          </AssociationSet>
+          <AssociationSet Name="FK__statistik__IDsta__45F365D3" Association="Self.FK__statistik__IDsta__45F365D3">
+            <End Role="rezultati" EntitySet="rezultati" />
+            <End Role="statistika" EntitySet="statistika" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GymNModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cenovnik">
+          <Key>
+            <PropertyRef Name="IDCena" />
+          </Key>
+          <Property Name="cena" Type="Int32" Nullable="false" />
+          <Property Name="tip" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IDCena" Type="Int32" Nullable="false" />
+          <Property Name="poslednjePromene" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="clan">
+          <Key>
+            <PropertyRef Name="IDClana" />
+          </Key>
+          <Property Name="IDClana" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="datumRodj" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="datumUpisa" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="osoba" Relationship="Self.FK__clan__IDClana__3A81B327" FromRole="clan" ToRole="osoba" />
+          <NavigationProperty Name="rezultati" Relationship="Self.FK__rezultati__JMBG1__4316F928" FromRole="clan" ToRole="rezultati" />
+        </EntityType>
+        <EntityType Name="korisnik">
+          <Key>
+            <PropertyRef Name="IDKorisnika" />
+          </Key>
+          <Property Name="KorisnickoIme" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IDKorisnika" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="sifra" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="tip" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="osoba" Relationship="Self.FK__korisnik__IDKori__164452B1" FromRole="korisnik" ToRole="osoba" />
+        </EntityType>
+        <EntityType Name="osoba">
+          <Key>
+            <PropertyRef Name="JMBG" />
+          </Key>
+          <Property Name="Ime" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Prezime" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="brTelefona" Type="Int32" />
+          <Property Name="adresa" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="pol" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="JMBG" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="clan" Relationship="Self.FK__clan__IDClana__3A81B327" FromRole="osoba" ToRole="clan" />
+          <NavigationProperty Name="korisnik" Relationship="Self.FK__korisnik__IDKori__164452B1" FromRole="osoba" ToRole="korisnik" />
+        </EntityType>
+        <EntityType Name="rezultati">
+          <Key>
+            <PropertyRef Name="JMBG1" />
+          </Key>
+          <Property Name="visina" Type="Double" Nullable="false" />
+          <Property Name="tezina" Type="Double" Nullable="false" />
+          <Property Name="ruke" Type="Double" Nullable="false" />
+          <Property Name="noge" Type="Double" Nullable="false" />
+          <Property Name="struk" Type="Double" Nullable="false" />
+          <Property Name="JMBG1" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="visina_epic" Type="Double" />
+          <Property Name="tezina_epic" Type="Double" />
+          <Property Name="ruke_epic" Type="Double" />
+          <Property Name="noge_epic" Type="Double" />
+          <Property Name="struk_epic" Type="Double" />
+          <Property Name="vremeUnosa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="vremeUnosa_epic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="clan" Relationship="Self.FK__rezultati__JMBG1__4316F928" FromRole="rezultati" ToRole="clan" />
+          <NavigationProperty Name="statistika" Relationship="Self.FK__statistik__IDsta__45F365D3" FromRole="rezultati" ToRole="statistika" />
+        </EntityType>
+        <EntityType Name="statistika">
+          <Key>
+            <PropertyRef Name="IDstatistika" />
+          </Key>
+          <Property Name="IDstatistika" Type="String" MaxLength="13" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="mesec" Type="DateTime" Precision="0" />
+          <Property Name="godina" Type="DateTime" Precision="0" />
+          <Property Name="prihod" Type="Double" />
+          <Property Name="IDrezultat" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="rezultati" Relationship="Self.FK__statistik__IDsta__45F365D3" FromRole="statistika" ToRole="rezultati" />
+        </EntityType>
+        <EntityType Name="termin">
+          <Key>
+            <PropertyRef Name="IDtermina" />
+          </Key>
+          <Property Name="datum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IDtermina" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="vreme" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Tiptreninga" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ImeiPrezime" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="arhivirano" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__clan__IDClana__3A81B327">
+          <End Role="osoba" Type="Self.osoba" Multiplicity="1" />
+          <End Role="clan" Type="Self.clan" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="osoba">
+              <PropertyRef Name="JMBG" />
+            </Principal>
+            <Dependent Role="clan">
+              <PropertyRef Name="IDClana" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__rezultati__JMBG1__4316F928">
+          <End Role="clan" Type="Self.clan" Multiplicity="1" />
+          <End Role="rezultati" Type="Self.rezultati" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="clan">
+              <PropertyRef Name="IDClana" />
+            </Principal>
+            <Dependent Role="rezultati">
+              <PropertyRef Name="JMBG1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__korisnik__IDKori__164452B1">
+          <End Role="osoba" Type="Self.osoba" Multiplicity="1" />
+          <End Role="korisnik" Type="Self.korisnik" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="osoba">
+              <PropertyRef Name="JMBG" />
+            </Principal>
+            <Dependent Role="korisnik">
+              <PropertyRef Name="IDKorisnika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__statistik__IDsta__45F365D3">
+          <End Role="rezultati" Type="Self.rezultati" Multiplicity="1" />
+          <End Role="statistika" Type="Self.statistika" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="rezultati">
+              <PropertyRef Name="JMBG1" />
+            </Principal>
+            <Dependent Role="statistika">
+              <PropertyRef Name="IDstatistika" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GymNEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="cenovniks" EntityType="Self.cenovnik" />
+          <EntitySet Name="clans" EntityType="Self.clan" />
+          <EntitySet Name="korisniks" EntityType="Self.korisnik" />
+          <EntitySet Name="osobas" EntityType="Self.osoba" />
+          <EntitySet Name="rezultatis" EntityType="Self.rezultati" />
+          <EntitySet Name="statistikas" EntityType="Self.statistika" />
+          <EntitySet Name="termins" EntityType="Self.termin" />
+          <AssociationSet Name="FK__clan__IDClana__3A81B327" Association="Self.FK__clan__IDClana__3A81B327">
+            <End Role="osoba" EntitySet="osobas" />
+            <End Role="clan" EntitySet="clans" />
+          </AssociationSet>
+          <AssociationSet Name="FK__rezultati__JMBG1__4316F928" Association="Self.FK__rezultati__JMBG1__4316F928">
+            <End Role="clan" EntitySet="clans" />
+            <End Role="rezultati" EntitySet="rezultatis" />
+          </AssociationSet>
+          <AssociationSet Name="FK__korisnik__IDKori__164452B1" Association="Self.FK__korisnik__IDKori__164452B1">
+            <End Role="osoba" EntitySet="osobas" />
+            <End Role="korisnik" EntitySet="korisniks" />
+          </AssociationSet>
+          <AssociationSet Name="FK__statistik__IDsta__45F365D3" Association="Self.FK__statistik__IDsta__45F365D3">
+            <End Role="rezultati" EntitySet="rezultatis" />
+            <End Role="statistika" EntitySet="statistikas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GymNModelStoreContainer" CdmEntityContainer="GymNEntities1">
+          <EntitySetMapping Name="cenovniks">
+            <EntityTypeMapping TypeName="GymNModel.cenovnik">
+              <MappingFragment StoreEntitySet="cenovnik">
+                <ScalarProperty Name="cena" ColumnName="cena" />
+                <ScalarProperty Name="tip" ColumnName="tip" />
+                <ScalarProperty Name="IDCena" ColumnName="IDCena" />
+                <ScalarProperty Name="poslednjePromene" ColumnName="poslednjePromene" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="clans">
+            <EntityTypeMapping TypeName="GymNModel.clan">
+              <MappingFragment StoreEntitySet="clan">
+                <ScalarProperty Name="IDClana" ColumnName="IDClana" />
+                <ScalarProperty Name="datumRodj" ColumnName="datumRodj" />
+                <ScalarProperty Name="datumUpisa" ColumnName="datumUpisa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="korisniks">
+            <EntityTypeMapping TypeName="GymNModel.korisnik">
+              <MappingFragment StoreEntitySet="korisnik">
+                <ScalarProperty Name="KorisnickoIme" ColumnName="KorisnickoIme" />
+                <ScalarProperty Name="IDKorisnika" ColumnName="IDKorisnika" />
+                <ScalarProperty Name="sifra" ColumnName="sifra" />
+                <ScalarProperty Name="tip" ColumnName="tip" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="osobas">
+            <EntityTypeMapping TypeName="GymNModel.osoba">
+              <MappingFragment StoreEntitySet="osoba">
+                <ScalarProperty Name="Ime" ColumnName="Ime" />
+                <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+                <ScalarProperty Name="brTelefona" ColumnName="brTelefona" />
+                <ScalarProperty Name="adresa" ColumnName="adresa" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="pol" ColumnName="pol" />
+                <ScalarProperty Name="JMBG" ColumnName="JMBG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="rezultatis">
+            <EntityTypeMapping TypeName="GymNModel.rezultati">
+              <MappingFragment StoreEntitySet="rezultati">
+                <ScalarProperty Name="visina" ColumnName="visina" />
+                <ScalarProperty Name="tezina" ColumnName="tezina" />
+                <ScalarProperty Name="ruke" ColumnName="ruke" />
+                <ScalarProperty Name="noge" ColumnName="noge" />
+                <ScalarProperty Name="struk" ColumnName="struk" />
+                <ScalarProperty Name="JMBG1" ColumnName="JMBG1" />
+                <ScalarProperty Name="visina_epic" ColumnName="visina_epic" />
+                <ScalarProperty Name="tezina_epic" ColumnName="tezina_epic" />
+                <ScalarProperty Name="ruke_epic" ColumnName="ruke_epic" />
+                <ScalarProperty Name="noge_epic" ColumnName="noge_epic" />
+                <ScalarProperty Name="struk_epic" ColumnName="struk_epic" />
+                <ScalarProperty Name="vremeUnosa" ColumnName="vremeUnosa" />
+                <ScalarProperty Name="vremeUnosa_epic" ColumnName="vremeUnosa_epic" />
+                <ScalarProperty Name="ime" ColumnName="ime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="statistikas">
+            <EntityTypeMapping TypeName="GymNModel.statistika">
+              <MappingFragment StoreEntitySet="statistika">
+                <ScalarProperty Name="IDstatistika" ColumnName="IDstatistika" />
+                <ScalarProperty Name="mesec" ColumnName="mesec" />
+                <ScalarProperty Name="godina" ColumnName="godina" />
+                <ScalarProperty Name="prihod" ColumnName="prihod" />
+                <ScalarProperty Name="IDrezultat" ColumnName="IDrezultat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="termins">
+            <EntityTypeMapping TypeName="GymNModel.termin">
+              <MappingFragment StoreEntitySet="termin">
+                <ScalarProperty Name="datum" ColumnName="datum" />
+                <ScalarProperty Name="IDtermina" ColumnName="IDtermina" />
+                <ScalarProperty Name="vreme" ColumnName="vreme" />
+                <ScalarProperty Name="Tiptreninga" ColumnName="Tiptreninga" />
+                <ScalarProperty Name="ImeiPrezime" ColumnName="ImeiPrezime" />
+                <ScalarProperty Name="arhivirano" ColumnName="arhivirano" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
